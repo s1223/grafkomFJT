@@ -1,5 +1,6 @@
 #include "Kotak.h"
 #include "Lingkaran.h"
+#include "Segitiga.h"
 #include <iostream>
 #include <stdio.h>
 #include <glew.h>
@@ -19,6 +20,25 @@ Kotak::Kotak(int x, int y) {
     this->y = y;
 }
 
+Segitiga::Segitiga() {
+    this->x = 0;
+    this->y = 0;
+}
+
+Segitiga::Segitiga(int x, int y) {
+    this->x = x;
+    this->y = y;
+}
+
+void Segitiga::segi3(){
+	glBegin(GL_POLYGON);
+	glColor3f(0,0,1);
+	glVertex2f(0,210);
+	glVertex2f(200,210);
+	glVertex2f(100,360);
+	glEnd();
+}
+
 void Kotak::gambar_k() {
 	glBegin(GL_POLYGON);
 	glColor3f(1, 1, 1);
@@ -33,6 +53,8 @@ void onDisplay() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	Kotak object1;
 	object1.gambar_k();
+	Segitiga objeknya;
+	objeknya.segi3();
 	Lingkaran obj1;
 	obj1.gambar_L(25, 500, 300, 300);
 	glutSwapBuffers();
