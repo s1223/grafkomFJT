@@ -1,5 +1,12 @@
 # grafkomFJT
 
+## File Utama
+berada di Object.cpp
+
+## File Tambahan
+### Kotak
+nama file : Kotak.h
+
 ## OOP Template
 * Class Object
     * This class is the base class. It have interface method which is *render()* method. This method should implemented later in its child class.
