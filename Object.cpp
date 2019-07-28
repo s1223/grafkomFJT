@@ -1,8 +1,9 @@
 #include "Kotak.h"
+#include "Lingkaran.h"
 #include <iostream>
 #include <stdio.h>
-#include <GL/glew.h>
-#include <GL/glut.h>
+#include <glew.h>
+#include <glut.h>
 using namespace std;
 float TX[4];
 float TY[4];
@@ -32,6 +33,8 @@ void onDisplay() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	Kotak object1;
 	object1.gambar_k();
+	Lingkaran obj1;
+	obj1.gambar_L(25, 500, 300, 300);
 	glutSwapBuffers();
 }
 
