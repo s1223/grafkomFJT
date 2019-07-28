@@ -6,6 +6,8 @@ berada di Object.cpp
 ## File Tambahan
 ### Kotak
 nama file : Kotak.h
+nama file : Lingkaran.h
+          : Lingkaran.cpp
 
 ## OOP Template
 * Class Object
