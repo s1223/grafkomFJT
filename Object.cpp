@@ -3,56 +3,56 @@
 #include "Segitiga.h"
 #include <iostream>
 #include <stdio.h>
-#include <glew.h>
-#include <glut.h>
+#include <Gl/glew.h>
+#include <GL/glut.h>
 using namespace std;
 float TX[4];
 float TY[4];
 int counter = 0;
 
 Kotak::Kotak() {
-    this->x = 0;
-    this->y = 0;
+	this->x = 0;
+	this->y = 0;
 }
 
 Kotak::Kotak(int x, int y) {
-    this->x = x;
-    this->y = y;
+	this->x = x;
+	this->y = y;
 }
 
 Segitiga::Segitiga() {
-    this->x = 0;
-    this->y = 0;
+	this->x = 0;
+	this->y = 0;
 }
 
 Segitiga::Segitiga(int x, int y) {
-    this->x = x;
-    this->y = y;
+	this->x = x;
+	this->y = y;
 }
 
-void Segitiga::segi3(){
+void Segitiga::segi3() {
 	glBegin(GL_POLYGON);
-	glColor3f(0,0,1);
-	glVertex2f(0,210);
-	glVertex2f(200,210);
-	glVertex2f(100,360);
+	glColor3f(0, 0, 1);
+	glVertex2f(0, 210);
+	glVertex2f(200, 210);
+	glVertex2f(100, 360);
 	glEnd();
 }
 
-void Kotak::gambar_k() {
-	glBegin(GL_POLYGON);
-	glColor3f(1, 1, 1);
-	glVertex2f(0, 0);
-	glVertex2f(0, 200);
-	glVertex2f(200, 200);
-	glVertex2f(200, 0);
+void Kotak::gambar_k(float x, float y) {
+	glBegin(GL_LINE_LOOP);
+	glColor3f(0, 1, 0);
+	glVertex2f(x-50, y-50);
+	glVertex2f(x-50, y+50);
+	glVertex2f(x+50, y+50);
+	glVertex2f(x+50, y-50);
 	glEnd();
 }
 void onDisplay() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	Kotak object1;
-	object1.gambar_k();
+	object1.gambar_k(80,80);
 	Segitiga objeknya;
 	objeknya.segi3();
 	Lingkaran obj1;
@@ -120,4 +120,3 @@ int main(int argc, char* argv[]) {
 	glutMainLoop();
 	return 0;
 }
-
