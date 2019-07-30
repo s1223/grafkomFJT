@@ -10,6 +10,10 @@ float TX[4];
 float TY[4];
 int counter = 0;
 
+int dt[100][3];
+int counter_data = 0;
+
+
 Kotak::Kotak() {
 	this->x = 0;
 	this->y = 0;
@@ -48,16 +52,55 @@ void Kotak::gambar_k(float x, float y) {
 	glVertex2f(x+50, y-50);
 	glEnd();
 }
+
+void save(int jenis, int x, int y) {
+	dt[counter_data][2] = jenis;
+	dt[counter_data][0] = x;
+	dt[counter_data][1] = y;
+	counter_data += 1;
+}
+
 void onDisplay() {
+	Kotak object1;
+	Segitiga objeknya;
+	Lingkaran obj1; 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	Kotak object1;
-	object1.gambar_k(80,80);
-	Segitiga objeknya;
-	objeknya.segi3();
-	Lingkaran obj1;
-	obj1.gambar_L(25, 500, 300, 300);
+	for (int i = 0; i < 100; i++)
+	{
+		if (dt[i][2] == 1)
+		{
+			object1.gambar_k(dt[i][0], dt[i][1]);
+		}
+		else if (dt[i][2] == 2)
+		{
+			object1.gambar_k(dt[i][0], dt[i][1]);
+		}
+		else if (dt[i][2] == 3)
+		{
+			obj1.gambar_L(50, 500, dt[i][0], dt[i][1]);
+		}
+	}
+	
+	//objeknya.segi3();
+	
+	
 	glutSwapBuffers();
+}
+
+void myKeyboard(unsigned char key, int x, int y) {
+	if (key == 'a' || key == 'A') {
+		save(1, x, 500 - y);
+		onDisplay();
+	}
+	else if (key == 's' || key == 'S') {
+		save(2, x, 500 - y);
+		onDisplay();
+	}
+	else if (key == 'd' || key == 'D') {
+		save(3, x, 500 - y);
+		onDisplay();
+	}
 }
 
 void myMouse(int button, int state, int x, int y) {
@@ -92,13 +135,6 @@ void myMouse(int button, int state, int x, int y) {
 }
 
 int main(int argc, char* argv[]) {
-	Kotak ls;
-	int wile = 0;
-	while (wile < 4) {
-		TX[wile] = -1;
-		TY[wile] = -1;
-		wile++;
-	}
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
@@ -115,7 +151,7 @@ int main(int argc, char* argv[]) {
 	gluOrtho2D(0, 500, 0, 500);
 
 	glutMouseFunc(myMouse);
-
+	glutKeyboardFunc(myKeyboard);
 	glutDisplayFunc(onDisplay);
 	glutMainLoop();
 	return 0;
