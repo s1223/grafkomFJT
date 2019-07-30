@@ -34,12 +34,12 @@ Segitiga::Segitiga(int x, int y) {
 	this->y = y;
 }
 
-void Segitiga::segi3() {
+void Segitiga::segi3(float ax, float by) {
 	glBegin(GL_POLYGON);
 	glColor3f(0, 0, 1);
-	glVertex2f(0, 210);
-	glVertex2f(200, 210);
-	glVertex2f(100, 360);
+	glVertex2f(ax, by+40);
+	glVertex2f(ax-50, by-50);
+	glVertex2f(ax+50, by-50);
 	glEnd();
 }
 
@@ -63,6 +63,7 @@ void save(int jenis, int x, int y) {
 void onDisplay() {
 	Kotak object1;
 	Segitiga objeknya;
+	objeknya.segi3(200,250);
 	Lingkaran obj1; 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
