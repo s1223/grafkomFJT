@@ -37,19 +37,19 @@ Segitiga::Segitiga(int x, int y) {
 void Segitiga::segi3(float ax, float by) {
 	glBegin(GL_POLYGON);
 	glColor3f(0, 0, 1);
-	glVertex2f(ax, by+40);
-	glVertex2f(ax-50, by-50);
-	glVertex2f(ax+50, by-50);
+	glVertex2f(ax, by + 40);
+	glVertex2f(ax - 50, by - 50);
+	glVertex2f(ax + 50, by - 50);
 	glEnd();
 }
 
 void Kotak::gambar_k(float x, float y) {
 	glBegin(GL_LINE_LOOP);
 	glColor3f(0, 1, 0);
-	glVertex2f(x-50, y-50);
-	glVertex2f(x-50, y+50);
-	glVertex2f(x+50, y+50);
-	glVertex2f(x+50, y-50);
+	glVertex2f(x - 50, y - 50);
+	glVertex2f(x - 50, y + 50);
+	glVertex2f(x + 50, y + 50);
+	glVertex2f(x + 50, y - 50);
 	glEnd();
 }
 
@@ -63,8 +63,7 @@ void save(int jenis, int x, int y) {
 void onDisplay() {
 	Kotak object1;
 	Segitiga objeknya;
-	objeknya.segi3(200,250);
-	Lingkaran obj1; 
+	Lingkaran obj1;
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	for (int i = 0; i < 100; i++)
@@ -75,17 +74,17 @@ void onDisplay() {
 		}
 		else if (dt[i][2] == 2)
 		{
-			object1.gambar_k(dt[i][0], dt[i][1]);
+			objeknya.segi3(dt[i][0], dt[i][1]);
 		}
 		else if (dt[i][2] == 3)
 		{
 			obj1.gambar_L(50, 500, dt[i][0], dt[i][1]);
 		}
 	}
-	
+
 	//objeknya.segi3();
-	
-	
+
+
 	glutSwapBuffers();
 }
 
