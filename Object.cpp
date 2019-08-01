@@ -3,8 +3,9 @@
 #include "Segitiga.h"
 #include <iostream>
 #include <stdio.h>
-#include <Gl/glew.h>
-#include <GL/glut.h>
+#include <glew.h>
+#include <glut.h>
+const double phi = 3.141592653589793;
 using namespace std;
 float TX[4];
 float TY[4];
@@ -32,6 +33,28 @@ Segitiga::Segitiga() {
 Segitiga::Segitiga(int x, int y) {
 	this->x = x;
 	this->y = y;
+}
+
+Lingkaran::Lingkaran() {
+	this->lebarpusat = 0;
+	this->tinggipusat = 0;
+}
+
+Lingkaran::Lingkaran(int lebarpusat, int tinggipusat) {
+	this->lebarpusat = lebarpusat;
+	this->tinggipusat = tinggipusat;
+}
+
+void Lingkaran::gambar_L(int lebarpusat, int tinggipusat) {
+	glColor3f(1.0, 0.0, 0.0);
+	glBegin(GL_LINE_LOOP);
+	for (a = 0; a <= 500; a++) {
+		sudut = a * (2 * phi / 500);
+		x = lebarpusat + 25 * cos(sudut);
+		y = tinggipusat + 25 * sin(sudut);
+		glVertex2f(x, y);
+	}
+	glEnd();
 }
 
 void Segitiga::segi3(float ax, float by) {
@@ -78,7 +101,7 @@ void onDisplay() {
 		}
 		else if (dt[i][2] == 3)
 		{
-			obj1.gambar_L(50, 500, dt[i][0], dt[i][1]);
+			obj1.gambar_L(dt[i][0], dt[i][1]);
 		}
 	}
 
@@ -90,15 +113,15 @@ void onDisplay() {
 
 void myKeyboard(unsigned char key, int x, int y) {
 	if (key == 'a' || key == 'A') {
-		save(1, x, 500 - y);
+		save(1, x, 600 - y);
 		onDisplay();
 	}
 	else if (key == 's' || key == 'S') {
-		save(2, x, 500 - y);
+		save(2, x, 600 - y);
 		onDisplay();
 	}
 	else if (key == 'd' || key == 'D') {
-		save(3, x, 500 - y);
+		save(3, x, 600 - y);
 		onDisplay();
 	}
 }
@@ -109,22 +132,22 @@ void myMouse(int button, int state, int x, int y) {
 		//printf("Mouse Event: %d %d %d %d\n", button, state, x, y);
 		if (counter == 0) {
 			TX[0] = x;
-			TY[0] = 500 - y;
+			TY[0] = 600 - y;
 			counter += 1;
 		}
 		else if (counter == 1) {
 			TX[1] = x;
-			TY[1] = 500 - y;
+			TY[1] = 600 - y;
 			counter += 1;
 		}
 		else if (counter == 2) {
 			TX[2] = x;
-			TY[2] = 500 - y;
+			TY[2] = 600 - y;
 			counter += 1;
 		}
 		else if (counter == 3) {
 			TX[3] = x;
-			TY[3] = 500 - y;
+			TY[3] = 600 - y;
 			counter += 1;
 		}
 		else if (counter == 4) {
@@ -138,7 +161,7 @@ int main(int argc, char* argv[]) {
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(800, 600);
 	glutCreateWindow("672017095");
 	GLenum glew_status = glewInit();
 	if (glew_status != GLEW_OK) {
@@ -148,7 +171,7 @@ int main(int argc, char* argv[]) {
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(0, 500, 0, 500);
+	gluOrtho2D(0, 800, 0, 600);
 
 	glutMouseFunc(myMouse);
 	glutKeyboardFunc(myKeyboard);
