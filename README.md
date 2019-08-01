@@ -7,8 +7,7 @@ berada di Object.cpp
 ### Kotak
 nama file : Kotak.h<br>
 nama file : Lingkaran.h<br>
-          : Lingkaran.cpp<br>
-          : Segitiga.h
+          : Segitiga.h<br>
 
 ## OOP Template
 * Class Object
