@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <GL/glew.h>
 #include <GL/glut.h>
+#include "imageloader.h"
 #include"Box2D/Box2D.h"
 //#include<stdbool.h>
 
