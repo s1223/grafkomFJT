@@ -14,6 +14,7 @@ using namespace std;
 float TX[4];
 float TY[4];
 int counter = 0;
+int status_update = 0;
 
 int dt[100][3];
 int counter_data = 0;
@@ -32,7 +33,7 @@ GLuint loadTexture(Image* image) {
 void initRendering() {
 	Image* image = loadBMP("fti.bmp");
 	_textureK = loadTexture(image);
-	
+
 	//delete image;
 }
 
@@ -93,7 +94,7 @@ void Kotak::gambar_k(float x, float y) {
 	glBindTexture(GL_TEXTURE_2D, _textureK);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
+
 	glBegin(GL_POLYGON);
 	glColor3f(1, 1, 1);
 	glTexCoord2f(0.0f, 0.0f);
@@ -105,7 +106,7 @@ void Kotak::gambar_k(float x, float y) {
 	glTexCoord2f(1.0f, 0.0f);
 	glVertex2f(x + 50, y - 50);
 	glEnd();
-	
+
 	glDisable(GL_TEXTURE_2D);
 }
 
@@ -175,89 +176,21 @@ float box2d_y(float posisi_saat_ini, float batas_bawah) {
 	// Instruct the world to perform a single step of simulation.
 	// It is generally best to keep the time step and iterations fixed.
 	world.Step(timeStep, velocityIterations, positionIterations);
-	
+
 	// Now print the position and angle of the body.
 	b2Vec2 position = body->GetPosition();
 	float32 angle = body->GetAngle();
 	return position.y;
 }
 
+
 void onDisplay() {
 	initRendering();
-	
 	Kotak object1;
 	Segitiga objeknya;
 	Lingkaran obj1;
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-
-
-
-
-
-	b2Vec2 gravity(0.0f, -9.8f);
-	b2World myWorld =  b2World(gravity);
-
-	// Define the ground body.
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f, -10.0f);
-
-	// Call the body factory which allocates memory for the ground body
-	// from a pool and creates the ground box shape (also from a pool).
-	// The body is also added to the world.
-	b2Body* groundBody = myWorld.CreateBody(&groundBodyDef);
-
-	// Define the ground box shape.
-	b2PolygonShape groundBox;
-
-	// The extents are the half-widths of the box.
-	groundBox.SetAsBox(50.0f, 10.0f);
-
-	// Add the ground fixture to the ground body.
-	groundBody->CreateFixture(&groundBox, 0.0f);
-
-	// Define the dynamic body. We set its position and call the body factory.
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(0.0f, 40.0f);
-	b2Body* body = myWorld.CreateBody(&bodyDef);
-
-	// Define another box shape for our dynamic body.
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(1.0f, 1.0f);
-
-	// Define the dynamic body fixture.
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
-
-	// Set the box density to be non-zero, so it will be dynamic.
-	fixtureDef.density = 1.0f;
-
-	// Override the default friction.
-	fixtureDef.friction = 0.3f;
-
-	// Add the shape to the body.
-	body->CreateFixture(&fixtureDef);
-
-	float32 timeStep = 1.0f / 60.f;
-	int32 velocityIterations = 10;
-	int32 positionIterations = 8;
-	myWorld.Step(timeStep, velocityIterations, positionIterations);
-	b2Vec2 position = body->GetPosition();
-	float32 angle = body->GetAngle();
-	printf("%4.5f %4.5f %4.5f\n", position.x, position.y, angle);
-
-	
-
-
-
-
-
-
-
-
-
-
 
 
 	for (int i = 0; i < 100; i++)
@@ -275,42 +208,38 @@ void onDisplay() {
 			obj1.gambar_L(dt[i][0], dt[i][1]);
 		}
 		//start Box2D
-		dt[i][1] = box2d_y(dt[i][1],1);
+		dt[i][1] = box2d_y(dt[i][1], 1);
+		//printf("%i\n", i);
 		//end Box2D
 	}
-
-	//objeknya.segi3();
-
-
-
+	
 	glutSwapBuffers();
-
 }
-
+void tampilkan() {
+	if (status_update == 1)
+	{
+		for (size_t i = 0; i < 30; i++)
+		{
+			onDisplay();
+		}
+		status_update = 0;
+	}
+}
 void myKeyboard(unsigned char key, int x, int y) {
 	if (key == 'a' || key == 'A') {
 		save(1, x, 600 - y);
-		onDisplay();
-		/*for (size_t i = 0; i < 100; i++)
-		{
-			onDisplay();
-		}*/
+		status_update = 1;
+		tampilkan();
 	}
 	else if (key == 's' || key == 'S') {
 		save(2, x, 600 - y);
-		onDisplay();
-		for (size_t i = 0; i < 100; i++)
-		{
-			onDisplay();
-		}
+		status_update = 1;
+		tampilkan();
 	}
 	else if (key == 'd' || key == 'D') {
 		save(3, x, 600 - y);
-		onDisplay();
-		for (size_t i = 0; i < 100; i++)
-		{
-			onDisplay();
-		}
+		status_update = 1;
+		tampilkan();
 	}
 }
 
