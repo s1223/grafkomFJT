@@ -69,7 +69,7 @@ void Segitiga::segi3(float ax, float by) {
 }
 
 void Kotak::gambar_k(float x, float y) {
-	glBegin(GL_LINE_LOOP);
+	glBegin(GL_POLYGON);
 	glColor3f(0, 1, 0);
 	glVertex2f(x - 50, y - 50);
 	glVertex2f(x - 50, y + 50);
