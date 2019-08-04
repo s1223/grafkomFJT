@@ -6,7 +6,8 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 #include"Box2D/Box2D.h"
-#include<stdbool.h>
+//#include<stdbool.h>
+
 const double phi = 3.141592653589793;
 using namespace std;
 float TX[4];
@@ -15,6 +16,24 @@ int counter = 0;
 
 int dt[100][3];
 int counter_data = 0;
+
+GLuint _textureK;
+
+
+GLuint loadTexture(Image* image) {
+	GLuint textureId;
+	glGenTextures(1, &textureId);
+	glBindTexture(GL_TEXTURE_2D, textureId);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->width, image->height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
+	return textureId;
+}
+
+void initRendering() {
+	Image* image = loadBMP("fti.bmp");
+	_textureK = loadTexture(image);
+	
+	//delete image;
+}
 
 
 Kotak::Kotak() {
@@ -69,13 +88,24 @@ void Segitiga::segi3(float ax, float by) {
 }
 
 void Kotak::gambar_k(float x, float y) {
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, _textureK);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
 	glBegin(GL_LINE_LOOP);
-	glColor3f(0, 1, 0);
+	glColor3f(1, 1, 1);
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex2f(x - 50, y - 50);
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex2f(x - 50, y + 50);
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex2f(x + 50, y + 50);
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex2f(x + 50, y - 50);
 	glEnd();
+	
+	glDisable(GL_TEXTURE_2D);
 }
 
 void save(int jenis, int x, int y) {
@@ -218,6 +248,8 @@ float box2d_y(float posisi_saat_ini, float batas_bawah) {
 }
 
 void onDisplay() {
+	initRendering();
+	
 	Kotak object1;
 	Segitiga objeknya;
 	Lingkaran obj1;
@@ -321,7 +353,7 @@ int main(int argc, char* argv[]) {
 	}
 
 	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+	//glLoadIdentity();
 	gluOrtho2D(0, 800, 0, 600);
 
 	glutMouseFunc(myMouse);
