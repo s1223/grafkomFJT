@@ -9,6 +9,13 @@
 #include<stdbool.h>
 #include "imageloader.h"
 
+int index_minimal;
+int jarak_minimal = 9999;
+int temp;
+int old_x = 0;
+int old_y = 0;
+int valid = 0;
+
 const double phi = 3.141592653589793;
 using namespace std;
 float TX[4];
@@ -244,34 +251,46 @@ void myKeyboard(unsigned char key, int x, int y) {
 }
 
 void myMouse(int button, int state, int x, int y) {
+	old_x = x;
+	printf("%i\n", x);
+	old_y = y;
+	valid = (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN);
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+	{
+		for (int i = 0; i < counter_data; i++) {
+			int variabelx = dt[i][0];
+			//int variabely = dt[i][1];
+			//int variabelj = dt[i][2];
+			temp = variabelx - x;
+			if (temp < 0)
+			{
+				temp = temp * -1;
+			}
+			if (jarak_minimal > temp)
+			{
+				jarak_minimal = temp;
+				index_minimal = i;
+			}
+		}
+		temp = 0;
+		jarak_minimal = 9999;
+	}
+}
 
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
-		//printf("Mouse Event: %d %d %d %d\n", button, state, x, y);
-		if (counter == 0) {
-			TX[0] = x;
-			TY[0] = 600 - y;
-			counter += 1;
-		}
-		else if (counter == 1) {
-			TX[1] = x;
-			TY[1] = 600 - y;
-			counter += 1;
-		}
-		else if (counter == 2) {
-			TX[2] = x;
-			TY[2] = 600 - y;
-			counter += 1;
-		}
-		else if (counter == 3) {
-			TX[3] = x;
-			TY[3] = 600 - y;
-			counter += 1;
-		}
-		else if (counter == 4) {
-			counter -= 4;
-		}
+void myMotion(int x, int y) {
+	if (valid) {
+		printf("Pindah\n");
+		int dx = old_x - x;
+		int dy = old_y - y;
+		dt[index_minimal][0] = x;
+		dt[index_minimal][1] = 600 - y;
 		onDisplay();
 	}
+	old_x = x;
+	//printf("%i;", x);
+	old_y = y;
+	//printf("%i\n", y);
+	
 }
 
 int main(int argc, char* argv[]) {
@@ -293,6 +312,7 @@ int main(int argc, char* argv[]) {
 	gluOrtho2D(0, 800, 0, 600);
 
 	glutMouseFunc(myMouse);
+	glutMotionFunc(myMotion);
 	glutKeyboardFunc(myKeyboard);
 	glutDisplayFunc(onDisplay);
 	glutMainLoop();
