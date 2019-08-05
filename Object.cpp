@@ -208,7 +208,7 @@ void onDisplay() {
 			obj1.gambar_L(dt[i][0], dt[i][1]);
 		}
 		//start Box2D
-		dt[i][1] = box2d_y(dt[i][1], 1);
+		dt[i][1] = box2d_y(dt[i][1], 25);
 		//printf("%i\n", i);
 		//end Box2D
 	}
